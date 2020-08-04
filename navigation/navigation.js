@@ -1,45 +1,30 @@
 import * as React from "react";
-import { View, Text, Button } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../components/home";
 import Favourite from "../components/favourite";
 import Profile from "../components/profile";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function Nav() {
+export default function Nav() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#f4511e",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
+      <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: "blue",
+          inactiveTintColor: "gray",
+          labelStyle: {
+            fontSize: 20,
+            margin: 0,
+            padding: 0,
           },
         }}
       >
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            title: "Overview",
-          }}
-        />
-        <Stack.Screen
-          name="Likes"
-          component={Favourite}
-          options={{
-            title: "Favourite",
-          }}
-        />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Likes" component={Favourite} />
+        <Tab.Screen name="Profile" component={Profile} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-export default Nav;
