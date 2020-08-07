@@ -18,7 +18,17 @@ export default class greetings extends Component {
     }
     return (
       <View>
-        <Text style={{ fontWeight: "bold", fontSize: 40 }}>{greeting}</Text>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            color: "white",
+            marginTop: 10,
+            marginBottom: 20,
+          }}
+        >
+          {greeting}
+        </Text>
       </View>
     );
   }

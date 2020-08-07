@@ -1,7 +1,7 @@
 import * as React from "react";
 import Home from "../components/home/home";
-import Favourite from "../components/favourite";
-import Profile from "../components/profile";
+import Search from "../components/Search/Search";
+import Library from "../components/Your_Library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -12,8 +12,12 @@ export default function Nav() {
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
-          activeTintColor: "blue",
-          inactiveTintColor: "gray",
+          activeTintColor: "white",
+          inactiveTintColor: "grey",
+
+          style: {
+            backgroundColor: "rgb(37,37,38)",
+          },
           labelStyle: {
             fontSize: 20,
             margin: 0,
@@ -22,8 +26,8 @@ export default function Nav() {
         }}
       >
         <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Likes" component={Favourite} />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="Your Library" component={Library} />
       </Tab.Navigator>
     </NavigationContainer>
   );
