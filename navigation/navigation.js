@@ -1,9 +1,10 @@
 import * as React from "react";
-import Home from "../components/home/home";
-import Search from "../components/Search/Search";
+import Home from "../components/home/Show/home";
+import SearchNav from "../components/Search/Nav/Nav";
 import Library from "../components/Your_Library";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeNav from "../components/home/Nav/Nav";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,8 +26,8 @@ export default function Nav() {
           },
         }}
       >
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="Home" component={HomeNav} />
+        <Tab.Screen name="Search" component={SearchNav} />
         <Tab.Screen name="Your Library" component={Library} />
       </Tab.Navigator>
     </NavigationContainer>

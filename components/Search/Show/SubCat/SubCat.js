@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import SmallPics from "./SmallPics/SmallPics";
-import Title from "../../generalGreeting/greeting";
+import Title from "../../../generalGreeting/greeting";
 
 export default class SubCat extends Component {
   render() {
