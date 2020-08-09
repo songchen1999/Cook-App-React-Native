@@ -19,7 +19,11 @@ export default class SearchBar extends Component {
     }
   };
   render() {
-    const show = this.state.result ? <Result /> : <View></View>;
+    const show = this.state.result ? (
+      <Result target={this.state.search} />
+    ) : (
+      <View></View>
+    );
     const { search } = this.state;
     return (
       <View>
