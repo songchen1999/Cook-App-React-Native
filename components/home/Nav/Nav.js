@@ -1,12 +1,11 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../Show/home";
 import Detail from "../Detail/Detail";
-
 const Stack = createStackNavigator();
 
-function App() {
+function App(props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -17,10 +16,15 @@ function App() {
     >
       <Stack.Screen
         name="Home"
+        firebase={props.firebase}
         options={{ headerShown: false }}
         component={Home}
       />
-      <Stack.Screen name="Detail" component={Detail} />
+      <Stack.Screen
+        name="Detail"
+        firebase={props.firebase}
+        component={Detail}
+      />
     </Stack.Navigator>
   );
 }

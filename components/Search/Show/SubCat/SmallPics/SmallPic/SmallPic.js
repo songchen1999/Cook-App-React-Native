@@ -1,34 +1,47 @@
 import React, { Component } from "react";
-import { Image, Text, StyleSheet, View, Dimensions } from "react-native";
+import {
+  TouchableOpacity,
+  Image,
+  Text,
+  StyleSheet,
+  View,
+  Dimensions,
+} from "react-native";
 
 export default class SmallPic extends Component {
   render() {
     const { uri, backgroundColor, text, ...rest } = this.props;
     return (
-      <View
-        style={[
-          styles.outterRec,
-          { backgroundColor: this.props.backgroundColor },
-        ]}
+      <TouchableOpacity
+        style={{ width: "48.5%" }}
+        onPress={() => {
+          this.props.navigation.navigate("Detail", { text: this.props.text });
+        }}
       >
-        <Image
-          style={styles.Img}
-          source={{
-            uri: uri,
-          }}
-        />
-        <Text style={styles.Text} numberOfLines={2}>
-          {" "}
-          {text}{" "}
-        </Text>
-      </View>
+        <View
+          style={[
+            styles.outterRec,
+            { backgroundColor: this.props.backgroundColor },
+          ]}
+        >
+          <Image
+            style={styles.Img}
+            source={{
+              uri: uri,
+            }}
+          />
+          <Text style={styles.Text} numberOfLines={2}>
+            {text}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   outterRec: {
-    width: "47.5%",
+    width: "100%",
     aspectRatio: 3 / 2,
     //backgroundColor: "brown",
     borderRadius: 5,

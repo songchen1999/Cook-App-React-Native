@@ -3,16 +3,20 @@ import { View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Search from "../Show/Search";
 import Detail from "../Detail/Detail";
+// borrowing components from home detail js
+import MoreDetail from "../../home/Detail/Detail";
 
 const Stack = createStackNavigator();
 
-function App() {
+function App(props) {
   return (
     <Stack.Navigator
       screenOptions={{
         headerBackTitleVisible: false,
         headerTransparent: true,
-        headerTitle: null,
+        headerTitleStyle: {
+          color: "white",
+        },
       }}
     >
       <Stack.Screen
@@ -21,6 +25,11 @@ function App() {
         component={Search}
       />
       <Stack.Screen name="Detail" component={Detail} />
+      <Stack.Screen
+        name="MoreDetail"
+        component={MoreDetail}
+        options={{ title: null }}
+      />
     </Stack.Navigator>
   );
 }

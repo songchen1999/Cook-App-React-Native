@@ -1,12 +1,14 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, ScrollView, Dimensions, View } from "react-native";
 import Greeting from "./greetings/greetings";
 import RecentItems from "./RecentItems/RecentItems";
 import GeneralGreeting from "../../generalGreeting/greeting";
 import Recommendations from "./Recommendations/Recommendations";
 import Setting from "./Setting/Setting";
+import firebase from "firebase";
 
-function Home({ navigation }) {
+function Home(props) {
+  const [recipes, setRecipes] = useState([]);
   let margin = Dimensions.get("window").width * 0.05;
   const genres = [
     {
@@ -59,7 +61,7 @@ function Home({ navigation }) {
     },
   ];
 
-  const recipes = [
+  const recipesLocal = [
     {
       name: "Thai Curry Chicken",
       tag: ["Thai", "Chicken"],
@@ -229,6 +231,30 @@ function Home({ navigation }) {
       ],
     },
   ];
+
+  async function uploadRecipes() {
+    const result = await firebase.database();
+    recipes.forEach((e) =>
+      result.ref("recipes/" + e.name).set({
+        ...e,
+      })
+    );
+  }
+
+  useEffect(() => {
+    // read recipes from database
+    firebase
+      .database()
+      .ref("recipes/")
+      .once("value", (snapshot) => {
+        let recipeObject = snapshot.val();
+        const result = [];
+        for (key in recipeObject) {
+          result.push(recipeObject[key]);
+        }
+        setRecipes(result);
+      });
+  }, []);
   return (
     <SafeAreaView
       style={{
@@ -254,19 +280,31 @@ function Home({ navigation }) {
           fontSize={20}
           text={"Recently cooked"}
         />
-        <RecentItems navigation={navigation} recipes={recipes} height={120} />
+        <RecentItems
+          navigation={props.navigation}
+          recipes={recipes}
+          height={120}
+        />
         <GeneralGreeting
           fontWeight={"bold"}
           fontSize={20}
           text={"New recipes"}
         />
-        <RecentItems navigation={navigation} recipes={recipes} height={140} />
+        <RecentItems
+          navigation={props.navigation}
+          recipes={recipes}
+          height={140}
+        />
         <GeneralGreeting
           fontWeight={"bold"}
           fontSize={20}
           text={"Made for you"}
         />
-        <RecentItems navigation={navigation} recipes={recipes} height={150} />
+        <RecentItems
+          navigation={props.navigation}
+          recipes={recipes}
+          height={150}
+        />
       </ScrollView>
     </SafeAreaView>
   );

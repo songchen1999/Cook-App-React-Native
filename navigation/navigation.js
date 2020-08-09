@@ -1,5 +1,4 @@
-import * as React from "react";
-import Home from "../components/home/Show/home";
+import React, { useEffect } from "react";
 import SearchNav from "../components/Search/Nav/Nav";
 import Library from "../components/Your_Library";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,7 +7,7 @@ import HomeNav from "../components/home/Nav/Nav";
 
 const Tab = createBottomTabNavigator();
 
-export default function Nav() {
+export default function Nav(props) {
   return (
     <NavigationContainer>
       <Tab.Navigator

@@ -8,6 +8,7 @@ export default class SmallPics extends Component {
     const result = this.props.genres.slice(0, until).map((e, index) => {
       return (
         <SmallPic
+          navigation={this.props.navigation}
           key={index}
           uri={e.uri}
           text={e.text}

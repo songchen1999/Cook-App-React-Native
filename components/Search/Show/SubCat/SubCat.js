@@ -11,7 +11,11 @@ export default class SubCat extends Component {
           <Title fontWeight="bold" fontSize={20} text={this.props.text} />
         </View>
 
-        <SmallPics genres={this.props.genres} number={this.props.number} />
+        <SmallPics
+          navigation={this.props.navigation}
+          genres={this.props.genres}
+          number={this.props.number}
+        />
       </View>
     );
   }

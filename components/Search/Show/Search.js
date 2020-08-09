@@ -246,8 +246,18 @@ function Search({ navigation }) {
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <SearchTitleAndBar />
-        <SubCat genres={genres} number={4} text={"Your top genres"} />
-        <SubCat genres={genres} number={8} text={"Browse all"} />
+        <SubCat
+          navigation={navigation}
+          genres={genres}
+          number={4}
+          text={"Your top genres"}
+        />
+        <SubCat
+          navigation={navigation}
+          genres={genres}
+          number={8}
+          text={"Browse all"}
+        />
       </ScrollView>
     </SafeAreaView>
   );
