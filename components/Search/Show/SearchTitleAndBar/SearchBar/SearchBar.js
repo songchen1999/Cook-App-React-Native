@@ -10,8 +10,8 @@ export default class SearchBar extends Component {
   };
 
   updateSearch = (search) => {
-    console.log(this.state.search, this.state.result);
     this.setState({ search });
+
     if (search.length == 0) {
       this.setState({ result: false });
     } else {
