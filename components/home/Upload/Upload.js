@@ -16,9 +16,7 @@ import {
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const createIngredient = () => ({
-  text: "",
-});
+const createIngredient = () => "";
 
 export default class Upload extends Component {
   render() {
@@ -119,13 +117,13 @@ export default class Upload extends Component {
                     </Text>
                   )}
 
-                  {values.ingredients.map(({ text }, index) => (
+                  {values.ingredients.map((e, index) => (
                     <TextInput
                       style={styles.TextInput}
                       key={index}
-                      onChangeText={handleChange(`ingredients[${index}].text`)}
-                      onBlur={handleBlur(`ingredients[${index}].text`)}
-                      value={values.ingredients[index].text}
+                      onChangeText={handleChange(`ingredients[${index}]`)}
+                      onBlur={handleBlur(`ingredients[${index}]`)}
+                      value={values.ingredients[index]}
                     />
                   ))}
                   <Button
