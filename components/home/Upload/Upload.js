@@ -13,11 +13,13 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import firebase from "firebase";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const createIngredient = () => "";
 const createInstructions = () => "";
+const createTag = () => "";
 
 export default class Upload extends Component {
   render() {
@@ -45,8 +47,13 @@ export default class Upload extends Component {
                 name: "",
                 ingredients: [""],
                 instructions: [""],
+                tag: [""],
               }}
-              onSubmit={(values) => Alert.alert(JSON.stringify(values))}
+              onSubmit={(values) => {
+                //Alert.alert(JSON.stringify(values));
+                const result = firebase.database();
+                result.ref("recipes/" + values.name).set(values);
+              }}
               validationSchema={yup.object().shape({
                 uri: yup.string().url().required(),
                 description: yup.string().min(6).required(),
@@ -54,6 +61,7 @@ export default class Upload extends Component {
                 name: yup.string().min(6).required(),
                 ingredients: yup.array().of(yup.string().min(6).required()),
                 instructions: yup.array().of(yup.string().min(6).required()),
+                tag: yup.array().of(yup.string().min(4).required()),
               })}
             >
               {({
@@ -72,7 +80,7 @@ export default class Upload extends Component {
                     value={values.name}
                     style={styles.TextInput}
                     onChangeText={handleChange("name")}
-                    placeholderTextColor="white"
+                    placeholderTextColor="yellow"
                     onBlur={() => setFieldTouched("name")}
                     placeholder="Name of the recipe"
                   />
@@ -86,7 +94,7 @@ export default class Upload extends Component {
                     style={styles.TextInput}
                     onChangeText={handleChange("uri")}
                     placeholder="uri"
-                    placeholderTextColor="white"
+                    placeholderTextColor="yellow"
                     onBlur={() => setFieldTouched("uri")}
                   />
                   {touched.uri && errors.uri && (
@@ -97,10 +105,11 @@ export default class Upload extends Component {
                   <TextInput
                     value={values.description}
                     style={styles.TextInput}
-                    placeholderTextColor="white"
+                    placeholderTextColor="yellow"
                     onChangeText={handleChange("description")}
                     placeholder="Description"
                     onBlur={() => setFieldTouched("description")}
+                    numberOfLines={2}
                   />
                   {touched.description && errors.description && (
                     <Text style={{ fontSize: 10, color: "red" }}>
@@ -110,7 +119,7 @@ export default class Upload extends Component {
                   <TextInput
                     value={values.text}
                     style={styles.TextInput}
-                    placeholderTextColor="white"
+                    placeholderTextColor="yellow"
                     onChangeText={handleChange("text")}
                     placeholder="text"
                     onBlur={() => setFieldTouched("text")}
@@ -123,6 +132,8 @@ export default class Upload extends Component {
                   <Text style={styles.ingredients}>Ingredients</Text>
                   {values.ingredients.map((e, index) => (
                     <TextInput
+                      placeholder="ingredient"
+                      placeholderTextColor="yellow"
                       style={styles.TextInput}
                       key={index}
                       onChangeText={handleChange(`ingredients[${index}]`)}
@@ -143,6 +154,8 @@ export default class Upload extends Component {
                   <Text style={styles.ingredients}>Instructions</Text>
                   {values.instructions.map((e, index) => (
                     <TextInput
+                      placeholder="instruction"
+                      placeholderTextColor="yellow"
                       style={styles.TextInput}
                       key={index}
                       onChangeText={handleChange(`instructions[${index}]`)}
@@ -158,6 +171,25 @@ export default class Upload extends Component {
                       ])
                     }
                     title="Add an instruction"
+                  />
+
+                  <Text style={styles.ingredients}>Tags</Text>
+                  {values.tag.map((e, index) => (
+                    <TextInput
+                      placeholder="tag"
+                      placeholderTextColor="yellow"
+                      style={styles.TextInput}
+                      key={index}
+                      onChangeText={handleChange(`tag[${index}]`)}
+                      onBlur={handleBlur(`tag[${index}]`)}
+                      value={values.tag[index]}
+                    />
+                  ))}
+                  <Button
+                    onPress={() =>
+                      setFieldValue("tag", [...values.tag, createTag()])
+                    }
+                    title="Add a tag"
                   />
 
                   <Button
@@ -185,13 +217,12 @@ const styles = StyleSheet.create({
   ingredients: {
     fontSize: 20,
     color: "white",
-    textAlign: "left",
   },
   form: {
     alignItems: "center",
   },
   TextInput: {
-    height: 20,
+    height: 40,
     backgroundColor: "rgb(37,37,38)",
     width: "80%",
     color: "white",
