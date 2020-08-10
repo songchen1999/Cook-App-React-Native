@@ -20,7 +20,7 @@ export default class SearchBar extends Component {
   };
   render() {
     const show = this.state.result ? (
-      <Result target={this.state.search} />
+      <Result target={this.state.search} navigation={this.props.navigation} />
     ) : (
       <View></View>
     );

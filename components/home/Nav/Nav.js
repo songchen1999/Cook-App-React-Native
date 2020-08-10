@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../Show/home";
 import Detail from "../Detail/Detail";
+import Upload from "../Upload/Upload";
 const Stack = createStackNavigator();
 
 function App(props) {
@@ -24,6 +25,11 @@ function App(props) {
         name="Detail"
         firebase={props.firebase}
         component={Detail}
+      />
+      <Stack.Screen
+        name="Upload"
+        options={{ headerShown: false }}
+        component={Upload}
       />
     </Stack.Navigator>
   );

@@ -245,7 +245,7 @@ function Search({ navigation }) {
       }}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        <SearchTitleAndBar />
+        <SearchTitleAndBar navigation={navigation} />
         <SubCat
           navigation={navigation}
           genres={genres}

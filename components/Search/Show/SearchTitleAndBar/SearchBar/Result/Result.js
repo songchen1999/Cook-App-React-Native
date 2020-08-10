@@ -9,22 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import firebase from "firebase";
-/*
-const DATA = [
-  {
-    id: "1",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-];
-*/
 
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
@@ -85,30 +69,39 @@ const App = (props) => {
 
         for (key in recipeObject) {
           //console.log(key, props.target);
-          if (key === props.target) {
-            result.push(recipeObject[key]);
-          }
+
+          result.push({
+            ...recipeObject[key],
+            ranking: minDistance(key, props.target),
+          });
         }
 
+        result.sort((a, b) => a["ranking"] - b["ranking"]);
         setDATA(result);
       });
   }, [props.target]);
 
-  const RenderItem = ({ item }) => {
+  const RenderItem = ({ item, navigation }) => {
     const backgroundColor =
       item.uri === selectedId ? "#f9c2ff" : "rgb(44,44,44)";
-    console.log(item, "renderItem");
+
     return (
       <Item
+        navigation={navigation}
         item={item}
-        onPress={() => setSelectedId(item.uri)}
+        onPress={() => {
+          setSelectedId(item.uri);
+          navigation.navigate("MoreDetail", { ...item });
+        }}
         style={{ backgroundColor }}
       />
     );
   };
-
-  const result = DATA.map((data) => {
-    return <RenderItem key={data.uri} item={data} />;
+  // only showing the top five
+  const result = DATA.slice(0, 5).map((data) => {
+    return (
+      <RenderItem navigation={props.navigation} key={data.uri} item={data} />
+    );
   });
   return (
     <View style={styles.container}>

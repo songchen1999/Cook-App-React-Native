@@ -7,7 +7,7 @@ export default class SearchTitleAndBar extends Component {
     return (
       <View>
         <Title fontWeight="bold" fontSize={40} text="Search" />
-        <SearchBar />
+        <SearchBar navigation={this.props.navigation} />
       </View>
     );
   }

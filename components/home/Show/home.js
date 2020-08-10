@@ -272,7 +272,7 @@ function Home(props) {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <Setting />
+        <Setting navigation={props.navigation} />
         <Greeting />
         <Recommendations genres={genres} number={4} />
         <GeneralGreeting

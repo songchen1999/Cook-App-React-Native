@@ -1,13 +1,19 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 export default class Setting extends Component {
   render() {
     return (
-      <View style={styles.Setting}>
-        <SimpleLineIcons name="settings" size={24} color="white" />
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          this.props.navigation.navigate("Upload");
+        }}
+      >
+        <View style={styles.Setting}>
+          <SimpleLineIcons name="settings" size={24} color="white" />
+        </View>
+      </TouchableOpacity>
     );
   }
 }
