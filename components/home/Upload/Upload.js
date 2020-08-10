@@ -17,6 +17,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const createIngredient = () => "";
+const createInstructions = () => "";
 
 export default class Upload extends Component {
   render() {
@@ -42,7 +43,8 @@ export default class Upload extends Component {
                 description: "",
                 text: "",
                 name: "",
-                ingredients: [],
+                ingredients: [""],
+                instructions: [""],
               }}
               onSubmit={(values) => Alert.alert(JSON.stringify(values))}
               validationSchema={yup.object().shape({
@@ -50,6 +52,8 @@ export default class Upload extends Component {
                 description: yup.string().min(6).required(),
                 text: yup.string().min(6).required(),
                 name: yup.string().min(6).required(),
+                ingredients: yup.array().of(yup.string().min(6).required()),
+                instructions: yup.array().of(yup.string().min(6).required()),
               })}
             >
               {({
@@ -116,7 +120,7 @@ export default class Upload extends Component {
                       {errors.text}
                     </Text>
                   )}
-
+                  <Text style={styles.ingredients}>Ingredients</Text>
                   {values.ingredients.map((e, index) => (
                     <TextInput
                       style={styles.TextInput}
@@ -135,6 +139,27 @@ export default class Upload extends Component {
                     }
                     title="Add an ingredient"
                   />
+
+                  <Text style={styles.ingredients}>Instructions</Text>
+                  {values.instructions.map((e, index) => (
+                    <TextInput
+                      style={styles.TextInput}
+                      key={index}
+                      onChangeText={handleChange(`instructions[${index}]`)}
+                      onBlur={handleBlur(`instructions[${index}]`)}
+                      value={values.instructions[index]}
+                    />
+                  ))}
+                  <Button
+                    onPress={() =>
+                      setFieldValue("instructions", [
+                        ...values.instructions,
+                        createInstructions(),
+                      ])
+                    }
+                    title="Add an instruction"
+                  />
+
                   <Button
                     title="Submit"
                     disabled={!isValid}
@@ -156,6 +181,11 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     marginVertical: "10%",
+  },
+  ingredients: {
+    fontSize: 20,
+    color: "white",
+    textAlign: "left",
   },
   form: {
     alignItems: "center",
