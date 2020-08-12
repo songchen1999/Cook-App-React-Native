@@ -48,6 +48,10 @@ export default class Upload extends Component {
                 instructions: [""],
                 tag: [""],
                 author: firebase.auth().currentUser.uid,
+                prep: "",
+                cook: "",
+                serving: "",
+                source: "",
               }}
               onSubmit={(values) => {
                 //Alert.alert(JSON.stringify(values));
@@ -63,6 +67,10 @@ export default class Upload extends Component {
                 ingredients: yup.array().of(yup.string().min(6).required()),
                 instructions: yup.array().of(yup.string().min(6).required()),
                 tag: yup.array().of(yup.string().min(4).required()),
+                prep: yup.number().positive().integer().required(),
+                cook: yup.number().positive().integer().required(),
+                serving: yup.number().positive().integer().required(),
+                source: yup.string().url().required(),
               })}
             >
               {({
@@ -70,6 +78,7 @@ export default class Upload extends Component {
                 handleChange,
                 errors,
                 handleBlur,
+                parseAndHandleChange,
                 setFieldTouched,
                 setFieldValue,
                 touched,
@@ -128,6 +137,62 @@ export default class Upload extends Component {
                   {touched.text && errors.text && (
                     <Text style={{ fontSize: 10, color: "red" }}>
                       {errors.text}
+                    </Text>
+                  )}
+                  <TextInput
+                    keyboardType="numeric"
+                    value={values.prep + ""}
+                    style={styles.TextInput}
+                    placeholderTextColor="yellow"
+                    onChangeText={handleChange("prep")}
+                    placeholder="prep"
+                    onBlur={() => setFieldTouched("prep")}
+                  />
+                  {touched.prep && errors.prep && (
+                    <Text style={{ fontSize: 10, color: "red" }}>
+                      {errors.prep}
+                    </Text>
+                  )}
+                  <TextInput
+                    keyboardType="numeric"
+                    value={values.cook + ""}
+                    style={styles.TextInput}
+                    placeholderTextColor="yellow"
+                    onChangeText={handleChange("cook")}
+                    placeholder="cook"
+                    onBlur={() => setFieldTouched("cook")}
+                  />
+                  {touched.cook && errors.cook && (
+                    <Text style={{ fontSize: 10, color: "red" }}>
+                      {errors.cook}
+                    </Text>
+                  )}
+                  <TextInput
+                    keyboardType="numeric"
+                    value={values.serving + ""}
+                    style={styles.TextInput}
+                    placeholderTextColor="yellow"
+                    onChangeText={handleChange("serving")}
+                    placeholder="serving"
+                    onBlur={() => setFieldTouched("serving")}
+                  />
+                  {touched.serving && errors.serving && (
+                    <Text style={{ fontSize: 10, color: "red" }}>
+                      {errors.serving}
+                    </Text>
+                  )}
+
+                  <TextInput
+                    value={values.source}
+                    style={styles.TextInput}
+                    placeholderTextColor="yellow"
+                    onChangeText={handleChange("source")}
+                    placeholder="source"
+                    onBlur={() => setFieldTouched("source")}
+                  />
+                  {touched.source && errors.source && (
+                    <Text style={{ fontSize: 10, color: "red" }}>
+                      {errors.source}
                     </Text>
                   )}
                   <Text style={styles.ingredients}>Ingredients</Text>
