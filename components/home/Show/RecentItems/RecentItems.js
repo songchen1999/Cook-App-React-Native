@@ -17,6 +17,7 @@ const App = (props) => {
         uri={e.uri}
         moreText={e.text}
         description={e.description}
+        name={e.name}
       />
     );
   });

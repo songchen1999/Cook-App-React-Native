@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SearchNav from "../components/Search/Nav/Nav";
-import Library from "../components/Your_Library";
+import Library from "../components/Your_Library/nav";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeNav from "../components/home/Nav/Nav";

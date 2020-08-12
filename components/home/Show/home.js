@@ -234,7 +234,7 @@ function Home(props) {
 
   async function uploadRecipes() {
     const result = await firebase.database();
-    recipes.forEach((e) =>
+    recipesLocal.forEach((e) =>
       result.ref("recipes/" + e.name).set({
         ...e,
       })
@@ -243,6 +243,7 @@ function Home(props) {
 
   useEffect(() => {
     // read recipes from database
+
     firebase
       .database()
       .ref("recipes/")

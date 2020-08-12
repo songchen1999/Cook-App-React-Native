@@ -18,6 +18,7 @@ export default function RecentItem(props) {
           ingredients: props.ingredients,
           text: props.moreText,
           description: props.description,
+          name: props.name,
         })
       }
     >

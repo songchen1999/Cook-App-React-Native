@@ -1,6 +1,5 @@
 import * as yup from "yup";
 import { Formik } from "formik";
-
 import React, { Component, Fragment } from "react";
 import {
   TextInput,
@@ -48,11 +47,13 @@ export default class Upload extends Component {
                 ingredients: [""],
                 instructions: [""],
                 tag: [""],
+                author: firebase.auth().currentUser.uid,
               }}
               onSubmit={(values) => {
                 //Alert.alert(JSON.stringify(values));
                 const result = firebase.database();
                 result.ref("recipes/" + values.name).set(values);
+                this.props.navigation.goBack();
               }}
               validationSchema={yup.object().shape({
                 uri: yup.string().url().required(),
