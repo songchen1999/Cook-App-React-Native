@@ -13,6 +13,7 @@ import {
   Dimensions,
 } from "react-native";
 import firebase from "firebase";
+import ImageUpload from "../../imageUpload/imageUpload";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -112,6 +113,7 @@ export default class Upload extends Component {
                       {errors.uri}
                     </Text>
                   )}
+                  <ImageUpload />
                   <TextInput
                     value={values.description}
                     style={styles.TextInput}

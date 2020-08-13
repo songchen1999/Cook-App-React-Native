@@ -1,9 +1,18 @@
 import React from "react";
-import { Image, StyleSheet, Button, Text, View, Alert } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Button,
+  Text,
+  View,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import firebase from "firebase";
 
 export default class HomeScreen extends React.Component {
+  state = { loading: false, url: "" };
   static navigationOptions = {
     header: null,
   };
@@ -12,11 +21,14 @@ export default class HomeScreen extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
+      this.setState({ loading: true });
       this.uploadImage(result.uri, "test-image")
         .then(() => {
+          this.setState({ loading: false });
           Alert.alert("Success");
         })
         .catch((error) => {
+          this.setState({ loading: false });
           Alert.alert(error);
         });
     }
@@ -28,9 +40,10 @@ export default class HomeScreen extends React.Component {
     storageRef
       .child("images/test-image")
       .getDownloadURL()
-      .then(function (url) {
+      .then((url) => {
         // `url` is the download URL for 'images/stars.jpg'
-        console.log(url);
+        console.log("Success", url);
+        this.setState({ url: url });
       })
       .catch(function (error) {
         console.log("error");
@@ -52,6 +65,10 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Button title="Choose image..." onPress={this.onChooseImagePress} />
+        <ActivityIndicator size="large" animating={this.state.loading} />
+        <Text style={{ color: "white" }}>
+          Or you can upload image and copy the url generated{this.state.url}
+        </Text>
       </View>
     );
   }
