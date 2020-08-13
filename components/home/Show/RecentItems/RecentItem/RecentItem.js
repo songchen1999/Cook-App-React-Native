@@ -19,6 +19,10 @@ export default function RecentItem(props) {
           text: props.moreText,
           description: props.description,
           name: props.name,
+          prep: props.prep,
+          cook: props.cook,
+          source: props.source,
+          serving: props.serving,
         })
       }
     >

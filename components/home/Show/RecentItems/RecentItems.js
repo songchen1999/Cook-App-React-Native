@@ -18,6 +18,10 @@ const App = (props) => {
         moreText={e.text}
         description={e.description}
         name={e.name}
+        source={e.source}
+        prep={e.prep}
+        cook={e.cook}
+        serving={e.serving}
       />
     );
   });

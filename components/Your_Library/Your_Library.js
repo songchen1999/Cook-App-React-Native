@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import Title from "../../components/generalGreeting/greeting";
 import firebase from "firebase";
@@ -19,33 +20,35 @@ function Libary({ navigation }) {
 
   useEffect(() => {
     // read recipes from database
-    firebase
-      .database()
-      .ref("recipes/")
-      .once("value", (snapshot) => {
-        let recipeObject = snapshot.val();
-        const result = [];
-        for (key in recipeObject) {
-          if (recipeObject[key].author === firebase.auth().currentUser.uid) {
-            result.push(recipeObject[key]);
-          }
-          console.log(key.author, firebase.auth().currentUser.uid);
-        }
-        setYours(result);
-        firebase
-          .database()
-          .ref("users/" + firebase.auth().currentUser.uid + "/likes/")
-          .once("value", (snapshot) => {
-            let nameArray = snapshot.val();
-            if (nameArray != null) {
-              let converted = nameArray.map((e) => {
-                return recipeObject[e];
-              });
-              //console.log(converted);
-              setLikes(converted);
+    if (firebase.auth().currentUser) {
+      firebase
+        .database()
+        .ref("recipes/")
+        .once("value", (snapshot) => {
+          let recipeObject = snapshot.val();
+          const result = [];
+          for (key in recipeObject) {
+            if (recipeObject[key].author === firebase.auth().currentUser.uid) {
+              result.push(recipeObject[key]);
             }
-          });
-      });
+            //console.log(key.author, firebase.auth().currentUser.uid);
+          }
+          setYours(result);
+          firebase
+            .database()
+            .ref("users/" + firebase.auth().currentUser.uid + "/likes/")
+            .once("value", (snapshot) => {
+              let nameArray = snapshot.val();
+              if (nameArray != null) {
+                let converted = nameArray.map((e) => {
+                  return recipeObject[e];
+                });
+                //console.log(converted);
+                setLikes(converted);
+              }
+            });
+        });
+    }
   }, []);
 
   const checkifLoggedIn = () => {
@@ -59,7 +62,7 @@ function Libary({ navigation }) {
   };
 
   const renderItem = ({ item }) => {
-    console.log("rendered", item, item.name);
+    //console.log("rendered", item, item.name);
     return (
       <RecentItem
         navigation={navigation}
@@ -71,6 +74,10 @@ function Libary({ navigation }) {
         moreText={item.text}
         description={item.description}
         name={item.name}
+        source={item.source}
+        prep={item.prep}
+        cook={item.cook}
+        serving={item.serving}
       />
     );
   };
@@ -90,18 +97,26 @@ function Libary({ navigation }) {
     >
       <View style={styles.pAl}>
         <View style={styles.profile}>
-          <Image
-            source={{
-              uri:
-                "https://images.unsplash.com/photo-1597151497942-a7819890bee7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("setProfile");
             }}
-            style={{
-              width: margin * 4,
-              aspectRatio: 1,
-              borderRadius: margin * 2,
-            }}
-          />
-          <Text style={{ color: "white" }}>Song Chen</Text>
+          >
+            <Image
+              source={{
+                uri: firebase.auth().currentUser.photoURL,
+              }}
+              style={{
+                width: margin * 4,
+                aspectRatio: 1,
+                borderRadius: margin * 2,
+              }}
+            />
+          </TouchableOpacity>
+
+          <Text style={{ color: "white" }}>
+            {firebase.auth().currentUser.displayName}
+          </Text>
         </View>
         <Button
           title="logout"
@@ -137,6 +152,12 @@ function Libary({ navigation }) {
           keyExtractor={(item) => item.uri}
         />
       </View>
+      <Button
+        title="imageUpload"
+        onPress={() => {
+          navigation.navigate("imageUpload");
+        }}
+      />
     </SafeAreaView>
   );
 }

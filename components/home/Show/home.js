@@ -275,7 +275,7 @@ function Home(props) {
       >
         <Setting navigation={props.navigation} />
         <Greeting />
-        <Recommendations genres={genres} number={4} />
+
         <GeneralGreeting
           fontWeight={"bold"}
           fontSize={20}

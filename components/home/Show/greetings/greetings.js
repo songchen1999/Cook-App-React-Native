@@ -21,7 +21,7 @@ export default class greetings extends Component {
         <Text
           style={{
             fontWeight: "bold",
-            fontSize: 20,
+            fontSize: 30,
             color: "white",
             marginTop: 10,
             marginBottom: 20,

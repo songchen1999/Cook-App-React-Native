@@ -11,7 +11,7 @@ import {
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import firebase from "firebase";
 
-export default function Login() {
+export default function Login(props) {
   const recaptchaVerifier = React.useRef(null);
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [verificationId, setVerificationId] = React.useState();

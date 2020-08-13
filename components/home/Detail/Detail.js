@@ -19,20 +19,22 @@ export default class Detail extends Component {
   state = { hearted: false };
 
   componentDidMount() {
-    firebase
-      .database()
-      .ref("users/" + firebase.auth().currentUser.uid + "/likes")
-      .once("value", (snapshot) => {
-        let likesArray = snapshot.val();
-        if (likesArray != null) {
-          for (element of likesArray) {
-            if (element === this.props.route.params.name) {
-              this.setState({ hearted: true });
-              break;
+    if (firebase.auth().currentUser) {
+      firebase
+        .database()
+        .ref("users/" + firebase.auth().currentUser.uid + "/likes")
+        .once("value", (snapshot) => {
+          let likesArray = snapshot.val();
+          if (likesArray != null) {
+            for (element of likesArray) {
+              if (element === this.props.route.params.name) {
+                this.setState({ hearted: true });
+                break;
+              }
             }
           }
-        }
-      });
+        });
+    }
     console.log("componentDidMount", this.state.hearted);
   }
 
@@ -45,46 +47,52 @@ export default class Detail extends Component {
       uri,
       instructions,
       name,
+      serving,
+      prep,
+      cook,
+      source,
     } = this.props.route.params;
     //console.log("users/" + name);
     const updateLikes = () => {
-      firebase
-        .database()
-        .ref("users/" + firebase.auth().currentUser.uid + "/likes")
-        .once("value", (snapshot) => {
-          let likesArray = snapshot.val();
+      if (firebase.auth().currentUser) {
+        firebase
+          .database()
+          .ref("users/" + firebase.auth().currentUser.uid + "/likes")
+          .once("value", (snapshot) => {
+            let likesArray = snapshot.val();
 
-          if (likesArray != null) {
-            console.log(this.state.hearted);
-            if (this.state.hearted == true) {
-              firebase
-                .database()
-                .ref("users/" + firebase.auth().currentUser.uid)
-                .set({ likes: [...likesArray, name] });
-              console.log("success addition");
-            } else {
-              // find the removal index
-              let index = [];
-              for (let i = 0; i < likesArray.length; i++) {
-                if (likesArray[i] == name) {
-                  index.push(i);
+            if (likesArray != null) {
+              console.log(this.state.hearted);
+              if (this.state.hearted == true) {
+                firebase
+                  .database()
+                  .ref("users/" + firebase.auth().currentUser.uid)
+                  .set({ likes: [...likesArray, name] });
+                console.log("success addition");
+              } else {
+                // find the removal index
+                let index = [];
+                for (let i = 0; i < likesArray.length; i++) {
+                  if (likesArray[i] == name) {
+                    index.push(i);
+                  }
                 }
+                index.forEach((i) => likesArray.splice(i, 1));
+                firebase
+                  .database()
+                  .ref("users/" + firebase.auth().currentUser.uid)
+                  .set({ likes: likesArray });
+                console.log("successful removal", likesArray);
               }
-              index.forEach((i) => likesArray.splice(i, 1));
+            } else {
               firebase
                 .database()
                 .ref("users/" + firebase.auth().currentUser.uid)
-                .set({ likes: likesArray });
-              console.log("successful removal", likesArray);
+                .set({ likes: [name] });
+              console.log("success");
             }
-          } else {
-            firebase
-              .database()
-              .ref("users/" + firebase.auth().currentUser.uid)
-              .set({ likes: [name] });
-            console.log("success");
-          }
-        });
+          });
+      }
     };
 
     const heart2 = this.state.hearted ? (
@@ -140,9 +148,9 @@ export default class Detail extends Component {
             <TitleAndIntro
               text={text}
               description={description}
-              prep={20}
-              cook={20}
-              serving={4}
+              prep={prep}
+              cook={cook}
+              serving={serving}
             />
             {heart}
 
