@@ -17,6 +17,7 @@ import RecentItem from "../home/Show/RecentItems/RecentItem/RecentItem";
 function Libary({ navigation }) {
   const [yours, setYours] = useState([]);
   const [likes, setLikes] = useState([]);
+  const [refresh, setFresh] = useState(1);
 
   useEffect(() => {
     // read recipes from database
@@ -49,7 +50,7 @@ function Libary({ navigation }) {
             });
         });
     }
-  }, []);
+  }, [firebase.auth().currentUser]);
 
   const checkifLoggedIn = () => {
     return firebase.auth().onAuthStateChanged((user) => {
@@ -121,6 +122,7 @@ function Libary({ navigation }) {
         <Button
           title="logout"
           onPress={() => {
+            setFresh(refresh + 1);
             firebase
               .auth()
               .signOut()

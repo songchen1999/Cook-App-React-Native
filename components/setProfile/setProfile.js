@@ -13,7 +13,7 @@ import {
   Dimensions,
 } from "react-native";
 import firebase from "firebase";
-
+import ImageUpload from "../imageUpload/imageUpload";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default class setProfile extends Component {
@@ -105,7 +105,7 @@ export default class setProfile extends Component {
                       {errors.photoURL}
                     </Text>
                   )}
-
+                  <ImageUpload />
                   <Button
                     title="Submit"
                     disabled={!isValid}

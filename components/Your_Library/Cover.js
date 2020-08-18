@@ -5,7 +5,7 @@ import firebase from "firebase";
 
 export default function Cover({ navigation }) {
   const Result = ({ navigation }) =>
-    firebase.auth().currentUser ? (
+    firebase.auth().currentUser !== null ? (
       <Library navigation={navigation} />
     ) : (
       <SafeAreaView>

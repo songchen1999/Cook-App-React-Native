@@ -19,10 +19,11 @@ export default class HomeScreen extends React.Component {
 
   onChooseImagePress = async () => {
     let result = await ImagePicker.launchImageLibraryAsync();
-
+    //let unique = "khkj";
+    let unique = firebase.auth().currentUser.uid;
     if (!result.cancelled) {
       this.setState({ loading: true });
-      this.uploadImage(result.uri, "test-image")
+      this.uploadImage(result.uri, unique)
         .then(() => {
           this.setState({ loading: false });
           Alert.alert("Success");
@@ -37,8 +38,9 @@ export default class HomeScreen extends React.Component {
 
     // Create a storage reference from our storage service
     var storageRef = storage.ref();
+    let child = `images/${unique}`;
     storageRef
-      .child("images/test-image")
+      .child(child)
       .getDownloadURL()
       .then((url) => {
         // `url` is the download URL for 'images/stars.jpg'
@@ -46,7 +48,7 @@ export default class HomeScreen extends React.Component {
         this.setState({ url: url });
       })
       .catch(function (error) {
-        console.log("error");
+        console.log(error);
       });
   };
 
@@ -54,10 +56,7 @@ export default class HomeScreen extends React.Component {
     const response = await fetch(uri);
     const blob = await response.blob();
 
-    var ref = firebase
-      .storage()
-      .ref()
-      .child("images/" + imageName);
+    var ref = firebase.storage().ref().child(`images/${imageName}`);
     return ref.put(blob);
   };
 
