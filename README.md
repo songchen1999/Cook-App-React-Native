@@ -26,5 +26,3 @@ Features:
 ![image of change profile](https://drive.google.com/uc?export=view&id=1zl30txIInNElXPBr04jOMdyr5BUnNbJM)
 - Users can log in through text
 
-published to Expo, use this link to try on Expo: exp://exp.host/@songchen/plant-app
-
