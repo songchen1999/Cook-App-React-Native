@@ -1,4 +1,6 @@
 # Cook-App-React-Native
+Published to Expo, use this link to try on Expo: exp://exp.host/@songchen/plant-app
+
 ![image of home screen](https://drive.google.com/uc?export=view&id=12JDByIznxYRLoD3CTU25G7IwVzbgL6YA)
 It's a cooking recipe app built with Expo react native:
 
